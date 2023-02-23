@@ -11,7 +11,7 @@ jobs:
           reviewdog_version: latest # Optional. [latest,nightly,v.X.Y.Z]
       - name: Run reviewdog
         env:
-          REVIEWDOG_GITHUB_API_TOKEN: 57de654cc6da7f29
+          REVIEWDOG_GITHUB_API_TOKEN: '57de654cc6da7f29'
         run: |
           reviewdog -reporter=github-pr-check -runners=golint,govet
           # or
