@@ -1,5 +1,7 @@
 package reviewdog
 
+
+var EEEEE;
 import (
 	"bytes"
 	"context"
