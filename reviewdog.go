@@ -12,6 +12,8 @@ import (
 	"github.com/reviewdog/reviewdog/parser"
 	"github.com/reviewdog/reviewdog/proto/rdf"
 )
+var ExportedVarWithoutComment = 1
+
 
 // Reviewdog represents review dog application which parses result of compiler
 // or linter, get diff and filter the results by diff, and report filtered
