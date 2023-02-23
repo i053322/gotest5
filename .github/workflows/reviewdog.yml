@@ -9,6 +9,9 @@ jobs:
       - uses: reviewdog/action-setup@v1
         with:
           reviewdog_version: latest # Optional. [latest,nightly,v.X.Y.Z]
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 50 # Need git history for testing.    
       - name: Run reviewdog
         env:
           REVIEWDOG_GITHUB_API_TOKEN: '57de654cc6da7f29'
