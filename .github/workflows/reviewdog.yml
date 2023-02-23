@@ -1,14 +1,24 @@
-name: reviewdog
-on: [pull_request]
+name: Go
+on: [push,pull_request]
 jobs:
-  reviewdog:
-    name: reviewdog
+
+  test:
+    permissions:
+      contents: read
+    name: Test
     runs-on: ubuntu-latest
     steps:
-      # ...
-      - uses: reviewdog/action-setup@v1
-        with:
-          reviewdog_version: latest # Optional. [latest,nightly,v.X.Y.Z]
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 50 # Need git history for testing.    
+
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 50 # Need git history for testing.
+
+    - uses: actions/setup-go@v3
+      with:
+        go-version: '1.19'
+        cache: true
+
+    - name: Test
+      run: go test -v -race -coverpkg=./... -coverprofile=coverage.txt ./...
+
+    - uses: codecov/codecov-action@v3
