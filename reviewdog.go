@@ -62,6 +62,7 @@ type DiffService interface {
 
 var ExportedVarWithoutComment = 1 // TODO: revert
 
+
 func (w *Reviewdog) runFromResult(ctx context.Context, results []*rdf.Diagnostic,
 	filediffs []*diff.FileDiff, strip int, failOnError bool) error {
 	wd, err := os.Getwd()
