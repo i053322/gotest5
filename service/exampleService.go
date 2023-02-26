@@ -14,7 +14,7 @@ type ExampleServiceStruct struct {
 func InitExampleService(exampleRepository repository.ExampleRepository) ExampleService {
 	service := new(ExampleServiceStruct)
 	service.exampleRepository = exampleRepository
-
+	DoNothing()
 	return service
 
 }
@@ -29,4 +29,9 @@ func (example *ExampleServiceStruct) AddWithTaxValueFromDB(a, b int) float32 {
 
 func (example *ExampleServiceStruct) Add(a, b int) int {
 	return a + b
+}
+
+
+func DoNothing() error {
+	return nil
 }
