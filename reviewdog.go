@@ -116,3 +116,9 @@ func (w *Reviewdog) Run(ctx context.Context, r io.Reader) error {
 
 	return w.runFromResult(ctx, results, filediffs, w.d.Strip(), w.failOnError)
 }
+
+
+func DoNothing() error {
+ return nil
+}
+
