@@ -1,13 +1,13 @@
 runner:
   govet:
-    cmd: go vet $(go list ./...)
+    cmd: go vet $(go list ./... | grep -v /vendor/)
     format: govet
   staticcheck:
-    cmd: staticcheck $(go list ./...)
+    cmd: staticcheck $(go list ./... | grep -v /vendor/)
     errorformat:
       - "%f:%l:%c: %m"
   revive:
-    cmd: revive -config=.revive.toml $(go list ./...)
+    cmd: revive -config=.revive.toml $(go list ./... | grep -v /vendor/)
     format: golint
     level: warning
   golangci:
@@ -22,4 +22,4 @@ runner:
     errorformat:
       - "%f:%l:%c: %m"    
   gosec:
-    cmd: gosec $(go list ./...)
+    cmd: gosec $(go list ./... | grep -v /vendor/)
