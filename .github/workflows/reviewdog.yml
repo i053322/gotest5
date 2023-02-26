@@ -1,10 +1,13 @@
-name: Go
-on: [pull_request]
+name: Automatic review with static code analyzer
+
+on:
+  pull_request
 
 env:
   GO111MODULE: on
   REVIEWDOG_GITHUB_API_TOKEN: 57de654cc6da7f29
-  
+      
+# We run `release` this create a release from the master branch
 jobs:
   check-app:
     runs-on: ubuntu-latest   
@@ -17,7 +20,7 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v2
       with:
-        go-version: 1.19  
+        go-version: 1.18  
     
     - uses: reviewdog/action-setup@v1
       with:
@@ -48,3 +51,38 @@ jobs:
     - name: Run reviewdog pr-review 
       continue-on-error: true     
       run: reviewdog -reporter=github-pr-review
+
+  gocritic-lint:
+    runs-on: ubuntu-latest   
+    steps:
+    - name: 'Checkout'
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.18 
+    - name: Setup go critic
+      run: go install github.com/go-critic/go-critic/cmd/gocritic@latest  
+    - name: Run go critic
+      run: gocritic check ./...
+      
+  hadolint:
+    name: check docker files
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v1
+      - name: github-check
+        uses: reviewdog/action-hadolint@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-check
+      - name: hadolint
+        uses: reviewdog/action-hadolint@v1
+        with:
+          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-check # Default is github-pr-check
+          
