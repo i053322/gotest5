@@ -18,6 +18,32 @@ jobs:
         go-version: '1.19'
         cache: true
 
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.18
+        
+    - name: Run misspell check spelling     
+      run:  go get -u github.com/client9/misspell/cmd/misspell
+    
+    - name: Run unparam to check for unused params    
+      run:  go install mvdan.cc/unparam@latest
+      
+    - name: Run golangci-lint      
+      run: go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.45.2
+    
+    - name: Setup security linter
+      run: go install github.com/securego/gosec/v2/cmd/gosec@latest
+
+    - name: Run reviewdog github-check
+      continue-on-error: true      
+      run: reviewdog -reporter=github-check  
+
+    - name: Run reviewdog pr-review 
+      continue-on-error: true     
+      run: reviewdog -reporter=github-pr-review
+      
+      
     - name: Test
       run: go test -v -race -coverpkg=./... -coverprofile=coverage.txt ./...
 
